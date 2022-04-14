@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    internal class Board
+    public class Board
     {
         public int Size { get; private set; }
         public List<Ball> Balls { get; private set; }
@@ -33,6 +33,5 @@ namespace Logic
                 }
             }
         }
-
     }
 }
