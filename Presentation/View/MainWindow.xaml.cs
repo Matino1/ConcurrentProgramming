@@ -20,9 +20,13 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private void ItemsControl_Selected(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+
         }
+        //public MainWindow()
+        //{
+        //InitializeComponent();
+        //}
     }
 }
