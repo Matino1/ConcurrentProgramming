@@ -13,7 +13,7 @@
         {
             Random random = new Random();
             
-            this.PositionX = random.NextDouble() * (100 - 1) + 1;
+            this.PositionX = random.NextDouble() % (100 - 1) + 1;
             this.PositionY = random.NextDouble() * (100 - 1) + 1;
 
             this.MoveX = random.NextDouble() * (1 - 0.1) + 0.1;
