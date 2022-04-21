@@ -16,7 +16,6 @@ namespace Logic
         public Board(int size)
         {
             Size = size;
-
         }
 
         public void AddBalls(int ballsAmount)
