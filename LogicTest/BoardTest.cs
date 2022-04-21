@@ -25,16 +25,16 @@ namespace LogicTest
             double positionX1 = board.Balls[0].PositionX;
             double positionY1 = board.Balls[0].PositionY;
 
-            double positionX2 = board.Balls[0].PositionX;
-            double positionY2 = board.Balls[0].PositionY;
+            double positionX2 = board.Balls[1].PositionX;
+            double positionY2 = board.Balls[1].PositionY;
 
             board.MoveBalls();
 
             Assert.AreNotEqual(board.Balls[0].PositionX, positionX1);
             Assert.AreNotEqual(board.Balls[0].PositionY, positionY1);
 
-            Assert.AreNotEqual(board.Balls[0].PositionX, positionX2);
-            Assert.AreNotEqual(board.Balls[0].PositionY, positionY2);
+            Assert.AreNotEqual(board.Balls[1].PositionX, positionX2);
+            Assert.AreNotEqual(board.Balls[1].PositionY, positionY2);
 
         }
     }
