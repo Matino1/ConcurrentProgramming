@@ -31,7 +31,7 @@ namespace ViewModel
 
         public event EventHandler CanExecuteChanged;
 
-        internal void RaiseCanExecuteChanged()
+        public void RaiseCanExecuteChanged()
         {
             this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }

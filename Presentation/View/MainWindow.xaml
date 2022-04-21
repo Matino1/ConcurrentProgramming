@@ -13,58 +13,37 @@
 
     <Canvas Width="650" Height="850">
     <Grid>
-                <Button x:Name="startButton" Content="START" Height="50" Width="100" Margin="180,714,320,20" Command="{Binding StartButtonClick}" />
+        <Button x:Name="startButton" Content="START" Height="50" Width="100" Margin="275,744,275,40" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
+        <Label  Height="50"  Width="240" Margin="205,612,205,172" Content="{Binding ErrorMessage}"/>
+        <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
 
+        <Grid x:Name="board" Height="550" Width="550" Margin="25,27,25,207" >
 
+            <Border BorderBrush="Black" Background="LightGray" BorderThickness="3">
+                <ItemsControl ItemsSource="{Binding Balls}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Height="550" Width="550" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                <Label  Height="50"  Width="240" Margin="205,612,205,172" Content="{Binding ErrorMessage}"/>
-                <TextBox Name="intputText" Text="{Binding InputText}" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Ellipse Width= "15" Height="15" Fill="Blue" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-
-
-                <Button x:Name="stopButton" Content="STOP" Height="50" Width="100" Margin="320,714,180,20" />
-
-
-
-                <Grid x:Name="board" Height="550" Width="550" Margin="25,27,25,207" >
-
-                    <Border BorderBrush="Black" Background="LightGray" BorderThickness="3">
-                        <ItemsControl ItemsSource="{Binding Balls}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas Height="550" Width="550" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Ellipse Width= "15" Height="15" Fill="Blue" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter  Property="Canvas.Top" Value="{Binding PositionY}"/>
-                                    <Setter Property="Canvas.Left" Value="{Binding PositionX}"/>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                        </ItemsControl>
-
-                        <!--<Canvas Height="550" Width="550">
-                            <ItemsControl  ItemsSource="{Binding Items}" Height="550" Width="550">
-                                <ItemsControl.ItemTemplate >
-                                    <DataTemplate>
-                                       
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Canvas>-->
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter  Property="Canvas.Top" Value="{Binding PositionY}"/>
+                            <Setter Property="Canvas.Left" Value="{Binding PositionX}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
             </Border>
         </Grid>
-
-            
     </Grid>
            
-        </Canvas>
-        </StackPanel>
+    </Canvas>
+    </StackPanel>
 </Window>

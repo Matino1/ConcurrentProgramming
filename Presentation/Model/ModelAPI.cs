@@ -1,4 +1,5 @@
 ﻿using Logic;
+using System.Collections.Generic;
 
 namespace Model
 {

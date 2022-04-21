@@ -1,4 +1,6 @@
-﻿namespace Logic
+﻿using System;
+
+namespace Logic
 {
     public class Ball
     {
@@ -13,11 +15,11 @@
         {
             Random random = new Random();
             
-            this.PositionX = random.NextDouble() * (100 - 1) + 1;
-            this.PositionY = random.NextDouble() * (100 - 1) + 1;
+            this.PositionX = Convert.ToDouble(random.Next(1, 100));
+            this.PositionY = Convert.ToDouble(random.Next(1, 100));
 
-            this.MoveX = random.NextDouble() * (1 - 0.1) + 0.1;
-            this.MoveY = random.NextDouble() * (1 - 0.1) + 0.1; 
+            this.MoveX = random.NextDouble() * (3.5 - 1.5) + 1.5;
+            this.MoveY = random.NextDouble() * (3.5 - 1.5) + 1.5; 
         }
 
         public void ChangeBallPosition(int maxBorder)
