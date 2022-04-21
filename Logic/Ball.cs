@@ -35,7 +35,7 @@
                 MoveY = -MoveY;
             }
 
-            PositionX = PositionX + MoveX;
+            PositionX += MoveX;
             PositionY = PositionY + MoveY;
         }
     }
