@@ -35,7 +35,7 @@ namespace Logic
             {
                 if (board.Balls.Count > 0)
                 {
-                    positionUpdater = Task.Run(board.MoveBalls);
+                    positionUpdater = Task.Run(board.MoveBallsInLoop);
                 }
             }
 

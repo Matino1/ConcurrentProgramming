@@ -30,20 +30,25 @@ namespace Logic
 
         public void StartMovingBalls()
         {
-            positionUpdater = new Task(MoveBalls);
+            positionUpdater = new Task(MoveBallsInLoop);
             positionUpdater.Start();
         }
 
 
-        public void MoveBalls()
+        public void MoveBallsInLoop()
         {
             while(true)
             {
-                foreach (Ball ball in Balls)
-                {
-                    ball.ChangeBallPosition(Size);
-                }
+                MoveBalls();
                 Thread.Sleep(1);
+            }
+        }
+
+        public void MoveBalls()
+        {
+            foreach (Ball ball in Balls)
+            {
+                ball.ChangeBallPosition(Size);
             }
         }
     }

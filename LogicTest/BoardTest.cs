@@ -16,20 +16,25 @@ namespace LogicTest
         }
 
         [TestMethod]
-        public void StartMovingBallsTest()
+        public void MovingBallsTest()
         {
             Board board = new Board(100);
 
-            board.AddBalls(1);
+            board.AddBalls(2);
 
-            double positionX = board.Balls[0].PositionX;
-            double positionY = board.Balls[0].PositionY;
+            double positionX1 = board.Balls[0].PositionX;
+            double positionY1 = board.Balls[0].PositionY;
 
-            board.StartMovingBalls();
+            double positionX2 = board.Balls[0].PositionX;
+            double positionY2 = board.Balls[0].PositionY;
 
-            System.Threading.Thread.Sleep(5);
-            Assert.AreNotEqual(board.Balls[0].PositionX, positionX);
-            Assert.AreNotEqual(board.Balls[0].PositionY, positionY);
+            board.MoveBalls();
+
+            Assert.AreNotEqual(board.Balls[0].PositionX, positionX1);
+            Assert.AreNotEqual(board.Balls[0].PositionY, positionY1);
+
+            Assert.AreNotEqual(board.Balls[0].PositionX, positionX2);
+            Assert.AreNotEqual(board.Balls[0].PositionY, positionY2);
 
         }
     }
