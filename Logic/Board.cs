@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Text;
+using System.Threading;
 
 namespace Logic
 {
@@ -29,8 +30,10 @@ namespace Logic
 
         public void StartMovingBalls()
         {
-            positionUpdater = Task.Run(MoveBalls);
+            positionUpdater = new Task(MoveBalls);
+            positionUpdater.Start();
         }
+
 
         public void MoveBalls()
         {
@@ -40,7 +43,7 @@ namespace Logic
                 {
                     ball.ChangeBallPosition(Size);
                 }
-                System.Threading.Thread.Sleep(5);
+                Thread.Sleep(1);
             }
         }
     }
