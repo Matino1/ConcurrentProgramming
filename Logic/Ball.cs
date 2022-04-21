@@ -18,8 +18,8 @@ namespace Logic
             this.PositionX = Convert.ToDouble(random.Next(1, 100));
             this.PositionY = Convert.ToDouble(random.Next(1, 100));
 
-            this.MoveX = random.NextDouble() * (3.5 - 1.5) + 1.5;
-            this.MoveY = random.NextDouble() * (3.5 - 1.5) + 1.5; 
+            this.MoveX = random.NextDouble() % (3.5 - 1.5) + 1.5;
+            this.MoveY = random.NextDouble() % (3.5 - 1.5) + 1.5; 
         }
 
         public void ChangeBallPosition(int maxBorder)
