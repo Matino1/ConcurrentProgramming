@@ -17,7 +17,7 @@
             this.PositionY = random.NextDouble() % (100 - 1) + 1;
 
             this.MoveX = random.NextDouble() % (1 - 0.1) + 0.1;
-            this.MoveY = random.NextDouble() * (1 - 0.1) + 0.1; 
+            this.MoveY = random.NextDouble() % (1 - 0.1) + 0.1; 
         }
 
         public void ChangeBallPosition(int maxBorder)
