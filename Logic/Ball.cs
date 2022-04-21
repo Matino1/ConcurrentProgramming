@@ -37,8 +37,8 @@ namespace Logic
                 MoveY = -MoveY;
             }
 
-            PositionX = PositionX + MoveX;
-            PositionY = PositionY + MoveY;
+            PositionX += MoveX;
+            PositionY += MoveY;
         }
     }
 }
