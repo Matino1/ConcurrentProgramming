@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm1="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="Concurrent programming" Height="850" Width="650">
+        Title="Concurrent programming" 
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+        WindowState="Maximized">
     <Window.DataContext>
         <vm1:ViewModelMainWindow />
     </Window.DataContext>
@@ -15,7 +18,7 @@
     <Grid>
         <Button x:Name="startButton" Content="START" Height="50" Width="100" Margin="275,744,275,40" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
         <Label  Height="50"  Width="240" Margin="205,612,205,172" Content="{Binding ErrorMessage}"/>
-        <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
+        <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
 
         <Grid x:Name="board" Height="550" Width="550" Margin="25,27,25,207" >
 
