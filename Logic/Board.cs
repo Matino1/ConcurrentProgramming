@@ -39,16 +39,11 @@ namespace Logic
         {
             while(true)
             {
-                MoveBalls();
+                foreach (Ball ball in Balls)
+                {
+                    ball.ChangeBallPosition(Size);
+                }
                 Thread.Sleep(1);
-            }
-        }
-
-        public void MoveBalls()
-        {
-            foreach (Ball ball in Balls)
-            {
-                ball.ChangeBallPosition(Size);
             }
         }
     }
