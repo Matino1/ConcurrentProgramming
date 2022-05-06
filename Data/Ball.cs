@@ -51,7 +51,7 @@ namespace Data
             BallThread.Start();
         }
 
-        private void MoveBall()
+        public void MoveBall()
         {
             while(true)
             {

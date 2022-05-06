@@ -1,6 +1,6 @@
 ﻿namespace Data
 {
-    public abstract class DataAPI
+    public abstract class DataAbstractAPI
     {
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
@@ -8,15 +8,15 @@
         public abstract double getBallSpeed(int ballId);
         public abstract void createBalls(int ballsAmount);
 
-        public static DataAPI CreateDataBall()
+        public static DataAbstractAPI CreateDataApi()
         {
-            return new DataBall();
+            return new DataApi();
         }
 
-        private class DataBall : DataAPI
+        private class DataApi : DataAbstractAPI
         {
             private BallRepository ballRepository;
-            public DataBall()
+            public DataApi()
             {
                 this.ballRepository = new BallRepository();
             }
