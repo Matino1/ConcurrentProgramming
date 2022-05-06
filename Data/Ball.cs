@@ -11,7 +11,7 @@ namespace Data
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
 
-        public int Radious { get; } = 5;
+        public int Radius { get; } = 5;
         public double Mass { get;} = 10;
         public double Speed { get; set; } = 5;
 
@@ -20,7 +20,7 @@ namespace Data
 
         public int BoardSize { get; set; } = 100;
 
-        private Thread positionUpdater;
+        private Thread BallTask;
 
 
         public Ball(int id)
@@ -59,8 +59,8 @@ namespace Data
 
         public void StartMoving()
         {
-            this.positionUpdater = new Thread(MovingBall);
-            positionUpdater.Start();
+            this.BallTask = new Thread(MovingBall);
+            BallTask.Start();
         }
 
         private void MovingBall()
