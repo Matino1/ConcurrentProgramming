@@ -4,7 +4,7 @@
     {
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
-        public abstract int getBallRadious(int ballId);
+        public abstract int getBallRadius(int ballId);
         public abstract double getBallSpeed(int ballId);
         public abstract void setBallSpeed(int ballId, double newSpeed);
         public abstract void createBalls(int ballsAmount);
@@ -32,9 +32,9 @@
                 return this.ballRepository.getBall(ballId).PositionY;
             }
 
-            public override int getBallRadious(int ballId)
+            public override int getBallRadius(int ballId)
             {
-                return this.ballRepository.getBall(ballId).Radious;
+                return this.ballRepository.getBall(ballId).Radius;
             }
 
             public override double getBallSpeed(int ballId)
