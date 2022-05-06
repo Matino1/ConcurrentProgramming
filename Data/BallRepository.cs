@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Data
 {
     public class BallRepository
     {
         private List<Ball> balls;
+        private Task StartMovingTask;
 
         public BallRepository()
         {
@@ -18,6 +20,7 @@ namespace Data
             for (int i = 0; i < ballsAmount; i++)
             {
                 balls.Add(new Ball(i + 1));
+                balls[i].StartMoving();
             }
         }
 
