@@ -4,7 +4,7 @@ using Data;
 namespace DataTest
 {
     [TestClass]
-    public class UnitTest1
+    public class BallRepoTest
     {
         [TestMethod]
         public void TestCreateBallsinRepository()
