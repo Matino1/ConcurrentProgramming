@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Logic
 {
-    public class Board
+    internal class Board
     {
         public int Size { get; private set; }
         public List<Ball> Balls { get; private set; }

@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Logic
+namespace Data
 {
-    public class Ball
+    internal class Ball
     {
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
+
+        public int Radious { get; } = 5;
+        public double Mass { get;} = 10;
         public double Speed { get; private set; } = 5;
-        public int Radious { get; set; }
 
         public double MoveX { get; private set; }
         public double MoveY { get; private set; }
@@ -16,19 +20,16 @@ namespace Logic
         public Ball()
         {
             Random random = new Random();
-            
+
             this.PositionX = Convert.ToDouble(random.Next(1, 100));
             this.PositionY = Convert.ToDouble(random.Next(1, 100));
 
-            /*this.MoveX = random.NextDouble() % (3.5 - 1.5) + 1.5;
-            this.MoveY = random.NextDouble() % (3.5 - 1.5) + 1.5; */
-
             this.Speed = random.NextDouble() % (5 - 1.5) + 1.5;
 
-            if (Convert.ToInt32(Speed) % 2 == 0)
+            if( Speed % 2 == 0)
             {
-                this.Speed = -this.Speed;
-            }
+                this.Speed = - this.Speed;
+            } 
 
             this.MoveX = Speed;
             this.MoveY = Speed;
@@ -54,7 +55,7 @@ namespace Logic
             if (newX > maxBorder || newX < 0)
             {
                 MoveX = -MoveX;
-            } 
+            }
 
             if (newY > maxBorder || newY < 0)
             {
