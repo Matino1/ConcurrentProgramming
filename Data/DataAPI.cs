@@ -6,7 +6,6 @@
         public abstract double getBallPositionY(int ballId);
         public abstract int getBallRadius(int ballId);
         public abstract double getBallSpeed(int ballId);
-        public abstract void setBallSpeed(int ballId, double newSpeed);
         public abstract void createBalls(int ballsAmount);
 
         public static DataAPI CreateDataBall()
@@ -40,11 +39,6 @@
             public override double getBallSpeed(int ballId)
             {
                 return this.ballRepository.getBall(ballId).Speed;
-            }
-
-            public override void setBallSpeed(int ballId, double newSpeed)
-            {
-                this.ballRepository.getBall(ballId).Speed = newSpeed;
             }
 
             public override void createBalls(int ballsAmount)

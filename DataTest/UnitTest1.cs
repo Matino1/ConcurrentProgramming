@@ -8,6 +8,7 @@ namespace DataTest
         [TestMethod]
         public void TestMethod1()
         {
+
         }
     }
 }

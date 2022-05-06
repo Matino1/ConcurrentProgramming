@@ -23,14 +23,20 @@ namespace Data
 
         public Ball getBall(int ballId)
         {
-            foreach (Ball ball in balls)
+          /*  foreach (Ball ball in balls)
             {
                 if (ball.id == ballId)
                 {
                     return ball;
                 }
             }
-            return null;
+            return null; */
+            return balls[ballId];
+        }
+
+        public List<Ball> getBallList()
+        {
+            return balls;
         }
     }
 }

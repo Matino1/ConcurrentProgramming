@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace Data
@@ -11,16 +10,16 @@ namespace Data
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
 
-        public int Radius { get; } = 5;
-        public double Mass { get;} = 10;
-        public double Speed { get; set; } = 5;
+        public int Radius { get; }
+        public double Mass { get;}
+        public double Speed { get; set; }
 
         public double MoveX { get; private set; }
         public double MoveY { get; private set; }
 
         public int BoardSize { get; set; } = 100;
 
-        private Thread BallTask;
+        private Thread BallThread;
 
 
         public Ball(int id)
@@ -32,7 +31,10 @@ namespace Data
             this.PositionX = Convert.ToDouble(random.Next(1, 100));
             this.PositionY = Convert.ToDouble(random.Next(1, 100));
 
-            this.Speed = random.NextDouble() % (5 - 1.5) + 1.5;
+            this.Radius = random.Next(1,6);
+            this.Mass = Convert.ToDouble(random.Next(1, 10)) * 0.1;
+
+            this.Speed = (random.NextDouble() % (5 - 1.5) + 1.5) / Mass;
 
             if( Speed % 2 == 0)
             {
@@ -43,11 +45,39 @@ namespace Data
             this.MoveY = Speed;
         }
 
-        public bool isCollision(Ball ball)
+        public void StartMoving()
+        {
+            this.BallThread = new Thread(MoveBall);
+            BallThread.Start();
+        }
+
+        private void MoveBall()
+        {
+            while(true)
+            {
+                double newX = PositionX + MoveX;
+                double newY = PositionY + MoveY;
+
+                if (newX > BoardSize || newX < 0)
+                {
+                    MoveX = -MoveX;
+                }
+
+                if (newY > BoardSize || newY < 0)
+                {
+                    MoveY = -MoveY;
+                }
+
+                PositionX += MoveX;
+                PositionY += MoveY;
+            }
+        }
+
+        public bool Collision(Ball ball)
         {
             double distance = Math.Sqrt(Math.Pow(this.PositionX - ball.PositionX, 2) + Math.Pow(this.PositionY - ball.PositionY, 2));
 
-            if (distance <= this.Radious + ball.Radious)
+            if (distance <= this.Radius + ball.Radius)
             {
                 Speed = ball.Speed;
                 ball.Speed = Speed;
@@ -55,39 +85,6 @@ namespace Data
             }
 
             return false;
-        }
-
-        public void StartMoving()
-        {
-            this.BallTask = new Thread(MovingBall);
-            BallTask.Start();
-        }
-
-        private void MovingBall()
-        {
-            while(true)
-            {
-                ChangeBallPosition(BoardSize);
-            }
-        }
-
-        public void ChangeBallPosition(int maxBorder)
-        {
-            double newX = PositionX + MoveX;
-            double newY = PositionY + MoveY;
-
-            if (newX > maxBorder || newX < 0)
-            {
-                MoveX = -MoveX;
-            }
-
-            if (newY > maxBorder || newY < 0)
-            {
-                MoveY = -MoveY;
-            }
-
-            PositionX += MoveX;
-            PositionY += MoveY;
         }
     }
 }
