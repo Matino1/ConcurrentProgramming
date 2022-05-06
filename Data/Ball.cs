@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Data
 {
-    internal class Ball
+    public class Ball
     {
         public int id { get;}
         public double PositionX { get; private set; }
