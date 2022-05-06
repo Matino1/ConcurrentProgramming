@@ -11,7 +11,7 @@ namespace Data
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
 
-        public int Radius { get; } = 5;
+        public int Radious { get; } = 5;
         public double Mass { get;} = 10;
         public double Speed { get; set; } = 5;
 
@@ -47,7 +47,7 @@ namespace Data
         {
             double distance = Math.Sqrt(Math.Pow(this.PositionX - ball.PositionX, 2) + Math.Pow(this.PositionY - ball.PositionY, 2));
 
-            if (distance <= this.Radius + ball.Radius)
+            if (distance <= this.Radious + ball.Radious)
             {
                 Speed = ball.Speed;
                 ball.Speed = Speed;

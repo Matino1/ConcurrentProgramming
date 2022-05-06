@@ -34,7 +34,7 @@
 
             public override int getBallRadius(int ballId)
             {
-                return this.ballRepository.getBall(ballId).Radius;
+                return this.ballRepository.getBall(ballId).Radious;
             }
 
             public override double getBallSpeed(int ballId)
