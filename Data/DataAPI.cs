@@ -1,4 +1,6 @@
-﻿namespace Data
+﻿using System.Threading.Tasks;
+
+namespace Data
 {
     public abstract class DataAbstractAPI
     {
@@ -16,6 +18,7 @@
         private class DataApi : DataAbstractAPI
         {
             private BallRepository ballRepository;
+            private Task StartMoving;
             public DataApi()
             {
                 this.ballRepository = new BallRepository();
