@@ -2,11 +2,11 @@
 
 namespace Logic
 {
-    public class Ball
+    internal class Ball
     {
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
-        public double Speed { get; private set; } = 5;
+        public double Speed { get; set; } = 5;
         public int Radious { get; set; }
 
         public double MoveX { get; private set; }
@@ -25,11 +25,6 @@ namespace Logic
 
             this.Speed = random.NextDouble() % (5 - 1.5) + 1.5;
 
-            if (Convert.ToInt32(Speed) % 2 == 0)
-            {
-                this.Speed = -this.Speed;
-            }
-
             this.MoveX = Speed;
             this.MoveY = Speed;
         }
@@ -40,6 +35,8 @@ namespace Logic
 
             if (distance <= this.Radious + ball.Radious)
             {
+                this.Speed = ball.Speed;
+                ball.Speed = this.Speed;
                 return true;
             }
 

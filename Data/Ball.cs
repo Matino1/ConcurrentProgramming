@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Data
 {
     internal class Ball
     {
+        public int id { get;}
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
 
         public int Radious { get; } = 5;
         public double Mass { get;} = 10;
-        public double Speed { get; private set; } = 5;
+        public double Speed { get; set; } = 5;
 
         public double MoveX { get; private set; }
         public double MoveY { get; private set; }
 
+        public int BoardSize { get; set; } = 100;
 
-        public Ball()
+        private Thread positionUpdater;
+
+
+        public Ball(int id)
         {
+            this.id = id;
+
             Random random = new Random();
 
             this.PositionX = Convert.ToDouble(random.Next(1, 100));
@@ -41,10 +49,26 @@ namespace Data
 
             if (distance <= this.Radious + ball.Radious)
             {
+                Speed = ball.Speed;
+                ball.Speed = Speed;
                 return true;
             }
 
             return false;
+        }
+
+        public void StartMoving()
+        {
+            this.positionUpdater = new Thread(MovingBall);
+            positionUpdater.Start();
+        }
+
+        private void MovingBall()
+        {
+            while(true)
+            {
+                ChangeBallPosition(BoardSize);
+            }
         }
 
         public void ChangeBallPosition(int maxBorder)
