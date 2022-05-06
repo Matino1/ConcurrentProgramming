@@ -22,7 +22,7 @@ namespace Logic
         private class BusinessLogic : LogicAPI
         {
             private readonly DataAPI dataAPI;
-            private Task positionUpdater;
+            private Task BoardTask;
             private Board board;
 
             public BusinessLogic(DataAPI dataAPI)
@@ -35,7 +35,7 @@ namespace Logic
             {
                 if (board.Balls.Count > 0)
                 {
-                    positionUpdater = Task.Run(board.MoveBallsInLoop);
+                    BoardTask = Task.Run(board.MoveBallsInLoop);
                 }
             }
 

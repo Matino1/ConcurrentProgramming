@@ -12,7 +12,7 @@ namespace Logic
     {
         public int Size { get; private set; }
         public List<Ball> Balls { get; private set; }
-        private Task positionUpdater;
+        private Task BoardTask;
 
         public Board(int size)
         {
@@ -30,8 +30,8 @@ namespace Logic
 
         public void StartMovingBalls()
         {
-            positionUpdater = new Task(MoveBallsInLoop);
-            positionUpdater.Start();
+            BoardTask = new Task(MoveBallsInLoop);
+            BoardTask.Start();
         }
 
 
