@@ -7,8 +7,7 @@ namespace Data
 {
     public class BallRepository
     {
-        private List<Ball> balls;
-        private Task StartMovingTask;
+        public List<Ball> balls { get; set; }
 
         public BallRepository()
         {
@@ -24,22 +23,9 @@ namespace Data
             }
         }
 
-        public Ball getBall(int ballId)
+        public Ball GetBall(int ballId)
         {
-          /*  foreach (Ball ball in balls)
-            {
-                if (ball.id == ballId)
-                {
-                    return ball;
-                }
-            }
-            return null; */
-            return balls[ballId];
-        }
-
-        public List<Ball> getBallList()
-        {
-            return balls;
+            return balls[ballId - 1];
         }
     }
 }
