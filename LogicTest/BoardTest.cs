@@ -9,13 +9,18 @@ namespace LogicTest
         [TestMethod]
         public void AddBallsTest()
         {
-            Board board = new Board(100);
+           /* Board board = new Board(100);
 
             board.AddBalls(1);
-            Assert.AreEqual(board.Balls.Count, 1);
+            Assert.AreEqual(board.Balls.Count, 1);*/
+
+            LogicAPI api = LogicAPI.CreateLayer();
+
+            api.StartMovingBalls();
+
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void MovingBallsTest()
         {
             Board board = new Board(100);
@@ -36,6 +41,6 @@ namespace LogicTest
             Assert.AreNotEqual(board.Balls[1].PositionX, positionX2);
             Assert.AreNotEqual(board.Balls[1].PositionY, positionY2);
 
-        }
+        } */
     }
 }

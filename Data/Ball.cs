@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Data
@@ -7,17 +8,18 @@ namespace Data
     public class Ball : IObservable<int>
     {
         public int Id { get;}
+
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
 
-        public int Radius { get; }
+        public int Radius { get; } = 7;
         public double Mass { get;}
         public double Speed { get; set; }
 
         public double MoveX { get; private set; }
         public double MoveY { get; private set; }
 
-        public int BoardSize { get; private set; } = 100;
+        public int BoardSize { get; private set; } = 530;
 
         internal readonly IList<IObserver<int>> observers;
 
@@ -35,13 +37,13 @@ namespace Data
             this.PositionX = Convert.ToDouble(random.Next(1, 100));
             this.PositionY = Convert.ToDouble(random.Next(1, 100));
 
-            this.Radius = random.Next(1,6);
+            //this.Radius = random.Next(1,6);
             this.Mass = Convert.ToDouble(random.Next(1, 10)) * 0.1;
 
-            this.Speed = (random.NextDouble() % (5 - 1.5) + 1.5) / Mass;
+            this.Speed = random.NextDouble() * (5- 2) + 2;
 
-            this.MoveX = Speed;
-            this.MoveY = Speed;
+            this.MoveX = random.NextDouble();
+            this.MoveY = random.NextDouble();
         }
 
         public void StartMoving()
@@ -54,7 +56,7 @@ namespace Data
         {
             while(true)
             {
-                double newX = PositionX + MoveX;
+                /*double newX = PositionX + MoveX;
                 double newY = PositionY + MoveY;
 
                 if (newX > BoardSize || newX < 0)
@@ -68,21 +70,47 @@ namespace Data
                 }
 
                 PositionX += MoveX;
-                PositionY += MoveY;
+                PositionY += MoveY;*/
+
+                double newX = PositionX + MoveX * Speed;
+                double newY = PositionY + MoveY * Speed;
+
+                if (newX > BoardSize || newX < 0)
+                {
+                    MoveX = -MoveX;
+                }
+
+                if (newY > BoardSize || newY < 0)
+                {
+                    MoveY = -MoveY;
+                }
+
+                PositionX += MoveX * Speed;
+                PositionY += MoveY * Speed;
 
                 //Inform observers when position change
                 //double[] position = { PositionX, PositionY };
                 //Point position = new Point(PositionX, PositionY);
-
-                foreach (var observer in observers)
-                {
-                    //if (position is null) 
+                int threadId = Thread.CurrentThread.ManagedThreadId;
+                
+                //if (observers != null)
+                //{
+                    foreach (var observer in observers.ToList())
+                    {
+                        //if (position is null) 
                         //observer.OnError(new NullReferenceException("Position is incorrect"));
-                    //else
-                        observer.OnNext(Id);
-                }
+                        //else
+                        if (observer != null)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Ball: " + Id + " moved on thread: " + threadId);
+                            observer.OnNext(Id);
+                        }
 
-                System.Threading.Thread.Sleep(10);
+                    }
+                //}
+                
+
+                System.Threading.Thread.Sleep(1);
             }
         }
 

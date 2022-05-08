@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Data
 {
@@ -28,7 +29,7 @@ namespace Data
         {
             private BallRepository ballRepository;
             private IDisposable unsubscriber;
-
+            static object _lock = new object();
             private IList<IObserver<int>> observers;
 
             public DataApi()
@@ -93,10 +94,47 @@ namespace Data
 
             public override void OnNext(int value)
             {
-                foreach (var observer in observers)
+                Monitor.Enter(_lock);
+                try
                 {
-                    observer.OnNext(value);
+                    int threadId = Thread.CurrentThread.ManagedThreadId;
+                    System.Diagnostics.Debug.WriteLine("Observer: Ball: " + value + " moved on thread: " + threadId );
+                    
+                    foreach (var observer in observers)
+                    {
+                        observer.OnNext(value);
+                    }
+                    // Critical piece of code
+
+                    /*     int threadId = Thread.CurrentThread.ManagedThreadId;
+                         Console.WriteLine($" Thread: {threadId} Entered into the critical section ");
+
+                         for (int num = 1; num <= 3; num++)
+                         {
+
+                             Console.WriteLine($" num: {num}");
+                             //Pausing the thread execution for 2 seconds
+
+                             //Thread.Sleep(TimeSpan.FromSeconds(2));
+
+                         }*/
                 }
+
+                catch (SynchronizationLockException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+
+                finally
+                {
+                    // Releasing object
+                    Monitor.Exit(_lock);
+                    //Console.WriteLine($"Thread : {Thread.CurrentThread.ManagedThreadId} Released");
+                }
+
+
+
+                
                 
             }
 

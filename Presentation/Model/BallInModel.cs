@@ -10,25 +10,14 @@ namespace Model
 
     public class BallInModel
     {
-        private Ball ball;
 
-        public BallInModel(Ball ball)
+        public double PositionX { get; set; }
+        public double PositionY { get; set; }
+
+        public BallInModel(double X, double Y)
         {
-            this.ball = ball;
-        }
-
-        private double positionX;
-
-        public double PositionX
-        {
-            get { return ball.PositionX; }
-        }
-
-        private double positionY;
-
-        public double PositionY
-        {
-            get { return ball.PositionY; }
+            this.PositionX = X;
+            this.PositionY = Y;
         }
 
     }

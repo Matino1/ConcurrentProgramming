@@ -33,9 +33,9 @@ namespace Model
             {
                 List<BallInModel> result = new List<BallInModel>();
 
-                foreach (Ball ball in logicApi.GetBalls())
+                for (int i = 0; i < 20; i++)
                 {
-                    result.Add(new BallInModel(ball));
+                    result.Add(new BallInModel(logicApi.getBallPositionX(i + 1), logicApi.getBallPositionY(i + 1)));
                 }
                 return result;
             }
