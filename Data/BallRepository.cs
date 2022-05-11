@@ -8,6 +8,7 @@ namespace Data
     public class BallRepository
     {
         public List<Ball> balls { get; set; }
+        public int BoardSize { get; private set; } = 520;
 
         public BallRepository()
         {
@@ -21,6 +22,8 @@ namespace Data
                 balls.Add(new Ball(i + 1));
                 balls[i].StartMoving();
             }
+            balls[0].MoveX = 7;
+            balls[0].MoveY = 7;
         }
 
         public Ball GetBall(int ballId)

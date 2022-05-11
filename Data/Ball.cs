@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Data
 {
@@ -12,18 +13,17 @@ namespace Data
         public double PositionX { get; private set; }
         public double PositionY { get; private set; }
 
-        public int Radius { get; } = 7;
-        public double Mass { get;}
+        public int Radius { get; } = 15;
+        public double Mass { get; } = 10;
         public double Speed { get; set; }
 
-        public double MoveX { get; private set; }
-        public double MoveY { get; private set; }
+        public double MoveX { get; set; }
+        public double MoveY { get; set; }
 
-        public int BoardSize { get; private set; } = 530;
 
         internal readonly IList<IObserver<int>> observers;
 
-        private Thread BallThread;
+        private Task BallThread;
 
 
         public Ball(int id)
@@ -34,21 +34,33 @@ namespace Data
 
             observers = new List<IObserver<int>>();
 
-            this.PositionX = Convert.ToDouble(random.Next(1, 100));
-            this.PositionY = Convert.ToDouble(random.Next(1, 100));
+            this.PositionX = Convert.ToDouble(random.Next(1, 500));
+            this.PositionY = Convert.ToDouble(random.Next(1, 500));
 
             //this.Radius = random.Next(1,6);
-            this.Mass = Convert.ToDouble(random.Next(1, 10)) * 0.1;
 
-            this.Speed = random.NextDouble() * (5- 2) + 2;
 
-            this.MoveX = random.NextDouble();
-            this.MoveY = random.NextDouble();
+            //this.Speed = random.NextDouble() * (5- 2) + 2;
+            //this.Speed = 0.001;
+
+
+            //this.A = 2;// random.NextDouble();
+
+            //if (random.Next(0, 1) == 0)
+            //{
+            // this.A = -this.A;
+            // }
+
+            //this.MoveX = random.NextDouble();
+            //this.MoveY = random.NextDouble();
+
+            this.MoveX = random.NextDouble() * (3 - 1) + 1;
+            this.MoveY = random.NextDouble() * (3 - 1) + 1;
         }
 
         public void StartMoving()
         {
-            this.BallThread = new Thread(MoveBall);
+            this.BallThread = new Task(MoveBall);
             BallThread.Start();
         }
 
@@ -56,60 +68,16 @@ namespace Data
         {
             while(true)
             {
-                /*double newX = PositionX + MoveX;
-                double newY = PositionY + MoveY;
-
-                if (newX > BoardSize || newX < 0)
-                {
-                    MoveX = -MoveX;
-                }
-
-                if (newY > BoardSize || newY < 0)
-                {
-                    MoveY = -MoveY;
-                }
-
                 PositionX += MoveX;
-                PositionY += MoveY;*/
+                PositionY += MoveY;
 
-                double newX = PositionX + MoveX * Speed;
-                double newY = PositionY + MoveY * Speed;
-
-                if (newX > BoardSize || newX < 0)
+                foreach (var observer in observers.ToList())
                 {
-                    MoveX = -MoveX;
-                }
-
-                if (newY > BoardSize || newY < 0)
-                {
-                    MoveY = -MoveY;
-                }
-
-                PositionX += MoveX * Speed;
-                PositionY += MoveY * Speed;
-
-                //Inform observers when position change
-                //double[] position = { PositionX, PositionY };
-                //Point position = new Point(PositionX, PositionY);
-                int threadId = Thread.CurrentThread.ManagedThreadId;
-                
-                //if (observers != null)
-                //{
-                    foreach (var observer in observers.ToList())
-                    {
-                        //if (position is null) 
-                        //observer.OnError(new NullReferenceException("Position is incorrect"));
-                        //else
-                        if (observer != null)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Ball: " + Id + " moved on thread: " + threadId);
-                            observer.OnNext(Id);
-                        }
-
+                    if (observer != null)
+                    { 
+                        observer.OnNext(Id);
                     }
-                //}
-                
-
+                }
                 System.Threading.Thread.Sleep(1);
             }
         }

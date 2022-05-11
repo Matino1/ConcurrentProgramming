@@ -33,7 +33,7 @@ namespace Model
             {
                 List<BallInModel> result = new List<BallInModel>();
 
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     result.Add(new BallInModel(logicApi.getBallPositionX(i + 1), logicApi.getBallPositionY(i + 1)));
                 }

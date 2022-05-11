@@ -32,7 +32,7 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Ellipse Width= "15" Height="15" Fill="Blue" />
+                            <Ellipse Width= "30" Height="30" Fill="Blue" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 

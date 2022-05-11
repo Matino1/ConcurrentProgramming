@@ -98,7 +98,7 @@ namespace ViewModel
 
                 Balls = treadList;
                 RaisePropertyChanged(nameof(Balls));
-                Thread.Sleep(10); 
+               
             }
         }
 

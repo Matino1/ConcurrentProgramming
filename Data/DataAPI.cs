@@ -9,8 +9,10 @@ namespace Data
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
         public abstract int getBallRadius(int ballId);
-        public abstract double getBallSpeed(int ballId);
-        public abstract void setBallSpeed(int ballId, double speed);
+        public abstract double getBallSpeedX(int ballId);
+        public abstract double getBallSpeedY(int ballId);
+        public abstract int getBoardSize();
+        public abstract void setBallSpeed(int ballId, double speedX, double speedY);
         public abstract void createBalls(int ballsAmount);
 
         public abstract void OnCompleted();
@@ -24,13 +26,13 @@ namespace Data
             return new DataApi();
         }
 
-        
         private class DataApi : DataAbstractAPI
         {
             private BallRepository ballRepository;
             private IDisposable unsubscriber;
             static object _lock = new object();
             private IList<IObserver<int>> observers;
+            private Barrier barrier;
 
             public DataApi()
             {
@@ -49,19 +51,30 @@ namespace Data
                 return this.ballRepository.GetBall(ballId).PositionY;
             }
 
+            public override int getBoardSize()
+            {
+                return ballRepository.BoardSize;
+            }
+
             public override int getBallRadius(int ballId)
             {
                 return this.ballRepository.GetBall(ballId).Radius;
             }
 
-            public override double getBallSpeed(int ballId)
+            public override double getBallSpeedX(int ballId)
             {
-                return this.ballRepository.GetBall(ballId).Speed;
+                return this.ballRepository.GetBall(ballId).MoveX;
             }
 
-            public override void setBallSpeed(int ballId, double speed)
+            public override double getBallSpeedY(int ballId)
             {
-                this.ballRepository.GetBall(ballId).Speed = speed;
+                return this.ballRepository.GetBall(ballId).MoveY;
+            }
+
+            public override void setBallSpeed(int ballId, double speedX, double speedY)
+            {
+                this.ballRepository.GetBall(ballId).MoveX = speedX;
+                this.ballRepository.GetBall(ballId).MoveY = speedY;
             }
 
             public override void createBalls(int ballsAmount)
@@ -72,6 +85,7 @@ namespace Data
                 {
                     Subscribe(ball);
                 }
+                //barrier = new Barrier(ballsAmount);
             }
 
             #region observer
@@ -94,48 +108,12 @@ namespace Data
 
             public override void OnNext(int value)
             {
-                Monitor.Enter(_lock);
-                try
-                {
-                    int threadId = Thread.CurrentThread.ManagedThreadId;
-                    System.Diagnostics.Debug.WriteLine("Observer: Ball: " + value + " moved on thread: " + threadId );
-                    
+
                     foreach (var observer in observers)
                     {
                         observer.OnNext(value);
                     }
-                    // Critical piece of code
-
-                    /*     int threadId = Thread.CurrentThread.ManagedThreadId;
-                         Console.WriteLine($" Thread: {threadId} Entered into the critical section ");
-
-                         for (int num = 1; num <= 3; num++)
-                         {
-
-                             Console.WriteLine($" num: {num}");
-                             //Pausing the thread execution for 2 seconds
-
-                             //Thread.Sleep(TimeSpan.FromSeconds(2));
-
-                         }*/
-                }
-
-                catch (SynchronizationLockException exception)
-                {
-                    Console.WriteLine(exception.Message);
-                }
-
-                finally
-                {
-                    // Releasing object
-                    Monitor.Exit(_lock);
-                    //Console.WriteLine($"Thread : {Thread.CurrentThread.ManagedThreadId} Released");
-                }
-
-
-
-                
-                
+             
             }
 
             public virtual void Unsubscribe()

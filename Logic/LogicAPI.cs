@@ -30,7 +30,6 @@ namespace Logic
             private readonly DataAbstractAPI dataAPI;
             private IDisposable unsubscriber;
             static object _lock = new object();
-            //private CollisionControler collisionControler;
 
             public BusinessLogic(DataAbstractAPI dataAPI)
             {
@@ -56,12 +55,13 @@ namespace Logic
 
             public override void AddBalls(int BallsAmount)
             {
-                dataAPI.createBalls(20);
+                dataAPI.createBalls(10);   
             }
 
             public override void StartMovingBalls()
             {
-                dataAPI.createBalls(20);
+                //dataAPI.createBalls(5);
+               
             }
 
             #region observer
@@ -84,31 +84,40 @@ namespace Logic
 
             public override void OnNext(int value)
             {
-              /*       Monitor.Enter(_lock);
+                Monitor.Enter(_lock);
                 try
                 {
-
-                    new System.Threading.Thread(() =>
-                    {*/
-                        System.Diagnostics.Debug.WriteLine("Collision check: Ball: " + value);
-
-                        for (int i = 1; i <= 20; i++)
+                    CollisionControler collisionControler = new CollisionControler(dataAPI.getBallPositionX(value), dataAPI.getBallPositionY(value), dataAPI.getBallSpeedX(value), dataAPI.getBallSpeedY(value), dataAPI.getBallRadius(value), 10, value);
+                    
+                    for (int i = 1; i <= 10; i++)
+                    {
+                        if (value != i)
                         {
-                            if (value != i)
+                            int id = System.Threading.Thread.CurrentThread.ManagedThreadId;
+                            if (CollisionControler.IsCollision(dataAPI.getBallPositionX(value), dataAPI.getBallPositionY(value), dataAPI.getBallPositionX(i), dataAPI.getBallPositionY(i), dataAPI.getBallRadius(value), dataAPI.getBallRadius(i)) )
                             {
-                                if (CollisionControler.IsCollision(dataAPI.getBallPositionX(value), dataAPI.getBallPositionY(value), dataAPI.getBallPositionX(i), dataAPI.getBallPositionY(i), dataAPI.getBallRadius(value), dataAPI.getBallRadius(i)))
-                                {
-                                    //double temp = dataAPI.getBallSpeed(value);
-                                    //dataAPI.setBallSpeed(value, -dataAPI.getBallSpeed(i));
-                                    //dataAPI.setBallSpeed(i, -temp);
-                                    dataAPI.setBallSpeed(value, -dataAPI.getBallSpeed(i));
-                                    dataAPI.setBallSpeed(i, -dataAPI.getBallSpeed(value));
-                                }
-                            }
-                        }
-             /*       }).Start();
+                                Vector2 newVelocity = collisionControler.ImpulseSpeed(dataAPI.getBallPositionX(i), dataAPI.getBallPositionY(i), dataAPI.getBallSpeedX(i), dataAPI.getBallSpeedY(i), 10);
+                                dataAPI.setBallSpeed(value, newVelocity.X, newVelocity.Y);
 
+                                
+                                Vector2 newVelocity2 = collisionControler.ImpulseSpeedReversed(dataAPI.getBallPositionX(i), dataAPI.getBallPositionY(i), dataAPI.getBallSpeedX(i), dataAPI.getBallSpeedY(i), 5);
+                               
+                                dataAPI.setBallSpeed(i, -newVelocity.X, -newVelocity.Y); 
+                            } 
+                        }          
+                    }
+
+                    if (CollisionControler.IsTouchingBoundariesX(dataAPI.getBallPositionX(value), dataAPI.getBallSpeedX(value), dataAPI.getBoardSize()))
+                    {
+                        dataAPI.setBallSpeed(value, -dataAPI.getBallSpeedX(value), dataAPI.getBallSpeedY(value));
+                    }
+
+                    if (CollisionControler.IsTouchingBoundariesY(dataAPI.getBallPositionY(value), dataAPI.getBallSpeedY(value), dataAPI.getBoardSize()))
+                    {
+                        dataAPI.setBallSpeed(value, dataAPI.getBallSpeedX(value), -dataAPI.getBallSpeedY(value));
+                    }
                 }
+
                 catch (SynchronizationLockException exception)
                 {
                     Console.WriteLine(exception.Message);
@@ -116,13 +125,8 @@ namespace Logic
 
                 finally
                 {
-                    // Releasing object
                     Monitor.Exit(_lock);
-                    //Console.WriteLine($"Thread : {Thread.CurrentThread.ManagedThreadId} Released");
-                }*/
-
-
-                    
+                }
             }
 
             public virtual void Unsubscribe()

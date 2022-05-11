@@ -19,7 +19,7 @@ namespace DataTest
 
             DataAbstractAPI api = DataAbstractAPI.CreateDataApi();
 
-            api.createBalls(10);
+            api.createBalls(5);
         }
 
 /*        [TestMethod]
