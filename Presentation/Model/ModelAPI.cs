@@ -55,8 +55,12 @@ namespace Model
                 for (int i = 1; i <= ballsAmount; i++)
                 {
                     BallInModel newBall = new BallInModel(logicApi.getBallPositionX(i), logicApi.getBallPositionY(i), logicApi.getBallRadius(i));
-                    Balls.Add(newBall);
-                    BallChanged?.Invoke(this, new BallChaneEventArgs() { Ball = newBall });
+                    Balls.Add(newBall); 
+                }
+
+                foreach(BallInModel ball in Balls)
+                {
+                    BallChanged?.Invoke(this, new BallChaneEventArgs() { Ball = ball });
                 }
                 
             }

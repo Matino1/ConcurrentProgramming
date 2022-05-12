@@ -17,16 +17,9 @@ namespace Data
 
         public void CreateBalls(int ballsAmount)
         {
-            
-
             for (int i = 0; i < ballsAmount; i++)
             {
                 balls.Add(new Ball(i + 1));
-            }
-
-            foreach (Ball ball in balls)
-            {
-                ball.StartMoving();
             }
         }
 

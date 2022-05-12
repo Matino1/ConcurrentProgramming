@@ -91,13 +91,14 @@ namespace Data
 
             public override void createBalls(int ballsAmount)
             {
+                barrier = new Barrier(ballsAmount);
                 ballRepository.CreateBalls(ballsAmount);
 
                 foreach (var ball in ballRepository.balls)
                 {
                     Subscribe(ball);
+                    ball.StartMoving();
                 }
-                barrier = new Barrier(ballsAmount);
                 
             }
 
@@ -111,22 +112,22 @@ namespace Data
 
             public override void OnCompleted()
             {
-                throw new NotImplementedException();
+                Unsubscribe();
             }
 
             public override void OnError(Exception error)
             {
-                throw new NotImplementedException();
+                throw error;
             }
 
             public override void OnNext(int value)
             {
                 barrier.SignalAndWait();
 
-                    foreach (var observer in observers)
-                    {
-                        observer.OnNext(value);
-                    }
+                foreach (var observer in observers)
+                {
+                    observer.OnNext(value);
+                }
              
             }
 

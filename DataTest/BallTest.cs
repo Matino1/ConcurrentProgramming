@@ -7,31 +7,27 @@ namespace DataTest
     public class BallTest
     {
         [TestMethod]
-        public void TestBallMovement()
+        public void ChangeBallPositionTest()
         {
-            /*Ball ball = new Ball(0);
-            double x = ball.PositionX;
-            double y = ball.PositionY;
-            ball.MoveBall();
-            Assert.AreEqual(ball.PositionX, x + ball.MoveX);
-            Assert.AreEqual(ball.PositionY, y + ball.MoveY);*/
+            Ball ball = new Ball(1);
 
-
-            DataAbstractAPI api = DataAbstractAPI.CreateDataApi();
-
-            api.createBalls(5);
+            double positionX = ball.PositionX;
+            double positionY = ball.PositionY;
+            ball.ChangeBallPosition();
+            Assert.AreEqual(ball.PositionX, positionX + ball.MoveX);
+            Assert.AreEqual(ball.PositionY, positionY + ball.MoveY);
         }
 
-/*        [TestMethod]
-        public void TestSpawnPosition()
+        [TestMethod]
+        public void RandomPositionAndMoveTest()
         {
-            Ball ball = new Ball(0);
+            Ball ball = new Ball(1);
 
-            Assert.IsTrue(ball.PositionX <= 100 && ball.PositionX >= 1);
-            Assert.IsTrue(ball.PositionY <= 100 && ball.PositionY >= 1);
+            Assert.IsTrue(ball.PositionX <= 500 && ball.PositionX >= 1);
+            Assert.IsTrue(ball.PositionY <= 500 && ball.PositionY >= 1);
 
-            Assert.IsTrue(ball.MoveX <= 3.5 && ball.MoveX >= 1.5);
-            Assert.IsTrue(ball.MoveY <= 3.5 && ball.MoveY >= 1.5);
-        }*/
+            Assert.IsTrue(ball.MoveX <= 5 && ball.MoveX >= 2);
+            Assert.IsTrue(ball.MoveY <= 5 && ball.MoveY >= 2);
+        }
     }
 }

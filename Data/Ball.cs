@@ -48,8 +48,7 @@ namespace Data
         {
             while(true)
             {
-                PositionX += MoveX;
-                PositionY += MoveY;
+                ChangeBallPosition();
 
                 foreach (var observer in observers.ToList())
                 {
@@ -58,8 +57,14 @@ namespace Data
                         observer.OnNext(Id);
                     }
                 }
-                //System.Threading.Thread.Sleep(1);
+                System.Threading.Thread.Sleep(1);
             }
+        }
+
+        public void ChangeBallPosition()
+        {
+            PositionX += MoveX;
+            PositionY += MoveY;
         }
 
         #region provider

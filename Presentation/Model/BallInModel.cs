@@ -18,8 +18,8 @@ namespace Model
         public BallInModel(double top, double left, int radius)
         {
             //this.BallId = ballId;
-            this.top = top;
-            this.left = left;
+            Top = top;
+            Left = left;
             Diameter = radius * 2;
         }
 
@@ -53,7 +53,7 @@ namespace Model
 
         public void Move(double poitionX, double positionY)
         {
-            Left = poitionX;
+           Left = poitionX;
            Top = positionY;
         }
 
