@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace Logic
 {
-    internal class CollisionControler
+    public class CollisionControler
     {
         private int mass;
         private int radious;
