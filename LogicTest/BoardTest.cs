@@ -16,7 +16,7 @@ namespace LogicTest
 
             LogicAPI api = LogicAPI.CreateLayer();
 
-            api.AddBalls(3);
+            //api.AddBalls(3);
 
         }
 

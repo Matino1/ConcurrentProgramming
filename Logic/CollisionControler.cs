@@ -11,26 +11,37 @@ namespace Logic
 {
     internal class CollisionControler
     {
-        private int ballId;
         private int mass;
         private int radious;
-        private Vector2 postionVector;
-        private Vector2 velocityVector;
+        private Vector2 position;
+        private Vector2 velocity;
 
-        public CollisionControler(double poitionX, double poitionY, double speedX, double speedY, int radious, int mass, int ballId )
+        public CollisionControler(double poitionX, double poitionY, double speedX, double speedY, int radious, int mass)
         {
-            this.velocityVector = new Vector2(speedX, speedY);
-            this.postionVector = new Vector2(poitionX, poitionY);
-            this.ballId = ballId;
+            this.velocity = new Vector2(speedX, speedY);
+            this.position = new Vector2(poitionX, poitionY);
             this.radious = radious;
             this.mass = mass;
         }
 
-        public static bool IsCollision(double positionX1, double positionY1, double positionX2, double positionY2, double radious1 , double radious2)
+        public bool IsCollision(double otherX, double otherY, double otherRadius, bool mode)
         {
-            double distance = Math.Sqrt(Math.Pow(positionX1 - positionX2, 2) + Math.Pow(positionY1 - positionY2, 2));
+            double currentX;
+            double currentY;
+            if (mode)
+            {
+                currentX = position.X + velocity.X;
+                currentY = position.Y + velocity.Y;
+            } 
+            else
+            {
+                currentX = position.X;
+                currentY = position.Y;
+            }
 
-            if (Math.Abs(distance) <= radious1 + radious2)
+            double distance = Math.Sqrt(Math.Pow(currentX - otherX, 2) + Math.Pow(currentY - otherY, 2));
+
+            if (Math.Abs(distance) <= radious + otherRadius)
             {
                 return true;
             }
@@ -38,74 +49,54 @@ namespace Logic
             return false;
         }
 
-        public static bool IsTouchingBoundariesX(double positionX, double speedX, int boardSize)
+        public bool IsTouchingBoundariesX(int boardSize)
         {
-            double newX = positionX + speedX;
+            double newX = position.X + velocity.X;
                 
-            if (newX > boardSize || newX < 0)
+            if ((newX > boardSize && velocity.X > 0) || (newX < 0 && velocity.X < 0))
             {
                 return true;
             }
             return false;
         }
 
-        public static bool IsTouchingBoundariesY(double positionY, double speedY, int boardSize)
+        public bool IsTouchingBoundariesY(int boardSize)
         {
-            double newY = positionY + speedY;
-            if (newY > boardSize || newY < 0)
+            double newY = position.Y + velocity.Y;
+            if ((newY > boardSize && velocity.Y > 0) || (newY < 0 && velocity.Y < 0))
             {
                 return true;
             }
             return false;
         }
 
-        public Vector2 ImpulseSpeed(double positionX, double positionY, double speedX, double speedY, double Othermass) 
+        public Vector2[] ImpulseSpeed(double otherX, double otherY, double speedX, double speedY, double otherMass) 
         {
             Vector2 velocityOther = new Vector2(speedX, speedY);
-            Vector2 positionOther = new Vector2(positionX, positionY);
+            Vector2 positionOther = new Vector2(otherX, otherY);
 
-            Vector2 momentum = projection(velocityVector - velocityOther, positionOther - postionVector);
+            double fDistance = Math.Sqrt((position.X - positionOther.X) * (position.X - positionOther.X) + (position.Y - positionOther.Y) * (position.Y - positionOther.Y));
 
-            momentum.X =  -momentum.X * (float)Othermass;
-            momentum.Y =  -momentum.Y * (float)Othermass;
+            double nx = (positionOther.X - position.X) / fDistance;
+            double ny = (positionOther.Y - position.Y) / fDistance;
 
-            return velocityVector + momentum * (1/ (float)mass);
+            double tx = -ny;
+            double ty = nx;
+
+            // Dot Product Tangent
+            double dpTan1 = velocity.X * tx + velocity.Y * ty;
+            double dpTan2 = velocityOther.X * tx + velocityOther.Y * ty;
+
+            // Dot Product Normal
+            double dpNorm1 = velocity.X * nx + velocity.Y * ny;
+            double dpNorm2 = velocityOther.X * nx + velocityOther.Y * ny;
+
+            // Conservation of momentum in 1D
+            double m1 = (dpNorm1 * (mass - otherMass) + 2.0f * otherMass * dpNorm2) / (mass + otherMass);
+            double m2 = (dpNorm2 * (otherMass - mass) + 2.0f * mass * dpNorm1) / (mass + otherMass);
+
+            return new Vector2[2] { new Vector2(tx * dpTan1 + nx * m1, ty * dpTan1 + ny * m1), new Vector2(tx * dpTan2 + nx * m2, ty * dpTan2 + ny * m2) };
+
         }
-
-        public Vector2 ImpulseSpeedReversed(double positionX, double positionY, double speedX, double speedY, double Othermass)
-        {
-            Vector2 velocityOther = new Vector2(speedX, speedY);
-            Vector2 positionOther = new Vector2(positionX, positionY);
-
-            Vector2 momentum = projection(velocityOther - velocityVector , postionVector - positionOther);
-
-            momentum.X = -momentum.X * (float)mass;
-            momentum.Y = -momentum.Y * (float)mass;
-
-            return velocityOther + momentum * (1 / (float)Othermass);
-        }
-
-        public Vector2 projection(Vector2 current,Vector2 other)
-        {
-            return (other * current * other) / (other * other);
-        }
-
-        /*        public static bool IsCollision2(int ballsAmount)
-                {
-                    for()
-
-
-                    double distance = Math.Sqrt(Math.Pow(positionX1 - positionX2, 2) + Math.Pow(positionY1 - positionY2, 2));
-
-                    if (distance <= radious1 + radious2)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }*/
-
-
-
     }
 }

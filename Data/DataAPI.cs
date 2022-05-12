@@ -11,9 +11,11 @@ namespace Data
         public abstract int getBallRadius(int ballId);
         public abstract double getBallSpeedX(int ballId);
         public abstract double getBallSpeedY(int ballId);
+        public abstract double getBallMass(int ballId);
         public abstract int getBoardSize();
         public abstract void setBallSpeed(int ballId, double speedX, double speedY);
         public abstract void createBalls(int ballsAmount);
+        public abstract int getBallsAmount();
 
         public abstract void OnCompleted();
         public abstract void OnError(Exception error);
@@ -56,6 +58,11 @@ namespace Data
                 return ballRepository.BoardSize;
             }
 
+            public override double getBallMass(int ballId)
+            {
+                return this.ballRepository.GetBall(ballId).Mass;
+            }
+
             public override int getBallRadius(int ballId)
             {
                 return this.ballRepository.GetBall(ballId).Radius;
@@ -77,6 +84,11 @@ namespace Data
                 this.ballRepository.GetBall(ballId).MoveY = speedY;
             }
 
+            public override int getBallsAmount()
+            {
+                return ballRepository.balls.Count;
+            }
+
             public override void createBalls(int ballsAmount)
             {
                 ballRepository.CreateBalls(ballsAmount);
@@ -85,7 +97,8 @@ namespace Data
                 {
                     Subscribe(ball);
                 }
-                //barrier = new Barrier(ballsAmount);
+                barrier = new Barrier(ballsAmount);
+                
             }
 
             #region observer
@@ -108,6 +121,7 @@ namespace Data
 
             public override void OnNext(int value)
             {
+                barrier.SignalAndWait();
 
                     foreach (var observer in observers)
                     {

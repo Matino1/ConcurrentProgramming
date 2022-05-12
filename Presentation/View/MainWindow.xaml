@@ -32,14 +32,14 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Ellipse Width= "30" Height="30" Fill="Blue" />
+                            <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="Blue" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ContentPresenter">
-                            <Setter  Property="Canvas.Top" Value="{Binding PositionY}"/>
-                            <Setter Property="Canvas.Left" Value="{Binding PositionX}"/>
+                            <Setter  Property="Canvas.Top" Value="{Binding Left}"/>
+                            <Setter Property="Canvas.Left" Value="{Binding Top}"/>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>

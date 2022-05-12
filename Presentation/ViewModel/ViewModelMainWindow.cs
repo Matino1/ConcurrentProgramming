@@ -13,11 +13,10 @@ namespace ViewModel
     public class ViewModelMainWindow : INotifyPropertyChanged
     {
         private ModelAPI modelApi;
-        private readonly double scale = 5.35;
-        public ObservableCollection<BallInModel> Balls { get; set; }
+        public ObservableCollection<IBall> Balls { get; set; }
+
         public ICommand StartButtonClick { get; set; }
         private string inputText;
-        private Task task;
 
         private bool state;
 
@@ -71,35 +70,17 @@ namespace ViewModel
         }
 
         public ViewModelMainWindow(ModelAPI baseModel)
-        {
+        {  
             State = true;
             this.modelApi = baseModel;
             StartButtonClick = new RelayCommand(() => StartButtonClickHandler());
-            Balls = new ObservableCollection<BallInModel>();
+            Balls = new ObservableCollection<IBall>();
+            IDisposable observer = modelApi.Subscribe(x => Balls.Add(x));
         }
 
         private void StartButtonClickHandler()
         {
             modelApi.AddBallsAndStart(readFromTextBox());
-            task = new Task(UpdatePosition);
-            task.Start();
-        }
-
-        public void UpdatePosition()
-        {
-            while(true)
-            {
-                ObservableCollection<BallInModel> treadList = new ObservableCollection<BallInModel>();
-
-                foreach (BallInModel ball in modelApi.Balls)
-                {
-                    treadList.Add(ball);
-                }
-
-                Balls = treadList;
-                RaisePropertyChanged(nameof(Balls));
-               
-            }
         }
 
         public int readFromTextBox()
