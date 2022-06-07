@@ -17,8 +17,6 @@ namespace LogicTest
             LogicAPI logic = LogicAPI.CreateLayer();
 
             logic.AddBallsAndStart(1);
-
-            Assert.AreEqual(logic.getBallRadius(1), 10);
         }
 
 

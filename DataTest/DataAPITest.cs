@@ -21,18 +21,5 @@ namespace DataTest
 
             Assert.AreEqual(dataApi.getBallsAmount(), 2);
         }
-
-        [TestMethod]
-        public void SpeedSetterTest()
-        {
-            DataAbstractAPI dataApi = DataAbstractAPI.CreateDataApi();
-
-            dataApi.createBalls(1);
-
-            dataApi.setBallSpeed(1, 2, 2);
-
-            Assert.AreEqual(dataApi.getBallSpeedX(1), 2);
-            Assert.AreEqual(dataApi.getBallSpeedY(1), 2);
-        }
     }
 }

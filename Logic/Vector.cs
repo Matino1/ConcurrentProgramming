@@ -31,6 +31,7 @@ namespace Logic
         {
             float xDifference = point1.X - point2.X;
             float yDifference = point1.Y - point2.Y;
+
             return xDifference * xDifference + yDifference * yDifference;
         }
 
