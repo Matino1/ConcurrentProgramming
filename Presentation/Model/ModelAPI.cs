@@ -42,37 +42,13 @@ namespace Model
 
             private IObservable<EventPattern<BallChaneEventArgs>> eventObservable = null;
             private List<BallInModel> Balls = new List<BallInModel>();
-            //private Dictionary<int, BallInModel> Balls = new Dictionary<int, BallInModel>();
 
             public ModelBall()
             {
                 logicApi = logicApi ?? LogicAPI.CreateLayer();
-                //IDisposable observer = logicApi.Subscribe(x => Balls[x.Id - 1].Move(x.PositionX, x.PositionY));
                 IDisposable observer = logicApi.Subscribe(x => Balls[x.Id - 1].Move(x.PositionX, x.PositionY));
                 eventObservable = Observable.FromEventPattern<BallChaneEventArgs>(this, "BallChanged");
             }
-
-            /*private void idk(Data.IBall  ball)
-            {
-                if(Balls.ContainsKey(ball.Id))
-                {
-                    Balls[ball.Id].Move(ball.PositionX, ball.PositionY);
-                } 
-                else
-                {
-                    BallInModel newBall = new BallInModel(ball.PositionX, ball.PositionY, ball.Radius);
-                    ObservableCollection<IBall> tempBalls = new ObservableCollection<IBall>();
-                    foreach (var item in Balls)
-                    {
-                        tempBalls.Add(item.Value);
-                    }
-
-                    BallChanged?.Invoke(this, new BallChaneEventArgs() { Ball = tempBalls });
-                    Balls.Add(ball.Id, newBall);
-                    newBall.Move(ball.PositionX, ball.PositionY);
-                } 
-            }*/
-
             public override void AddBallsAndStart(int ballsAmount)
             {
                 
@@ -84,10 +60,6 @@ namespace Model
                 }
                 logicApi.AddBallsAndStart(ballsAmount);
 
-                //foreach (BallInModel ball in Balls)
-                //{
-                   
-                //}   
             }
 
             public override IDisposable Subscribe(IObserver<IBall> observer)
