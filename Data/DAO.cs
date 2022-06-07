@@ -58,10 +58,5 @@ namespace Data
                 Monitor.Exit(_lock);
             }
         }
-
-        //public void Dispose()
-        //{
-            //sw.Dispose();
-        //}
     }
 }
