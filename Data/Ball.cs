@@ -25,9 +25,12 @@ namespace Data
 
         public bool isRunning = true;
 
+
         internal readonly IList<IObserver<IBall>> observers;
         Stopwatch stopwatch;
         private Task BallThread;
+
+        internal DAO dao { get; set; }
 
         public Ball(int id)
         {
@@ -40,8 +43,8 @@ namespace Data
             this.PositionX = Convert.ToDouble(random.Next(1, 500));
             this.PositionY = Convert.ToDouble(random.Next(1, 500));
 
-            this.SpeedX = random.NextDouble() * (5 - 2) + 2;
-            this.SpeedY = random.NextDouble() * (5 - 2) + 2;
+            this.SpeedX = random.NextDouble() * (0.2 - 0) + 0;
+            this.SpeedY = random.NextDouble() * (0.2 - 0) + 0;
         }
 
         public void StartMoving()
@@ -60,7 +63,7 @@ namespace Data
                 stopwatch.Start();
 
                 ChangeBallPosition(time);
-                DAO.wrtiteToFile(this, DateTime.Now.ToString("HH:mm:ss::fff "));
+                dao.addToBuffer(this);
 
                 foreach (var observer in observers.ToList())
                 {
@@ -71,7 +74,6 @@ namespace Data
                 }
                 stopwatch.Stop();
             }
-
         }
 
         public void ChangeBallPosition(long time)
@@ -79,13 +81,13 @@ namespace Data
 
             if (time > 0)
             {
-                MoveX = SpeedX / 40 * time;
-                MoveY = SpeedY / 40 * time;
+                MoveX = SpeedX /5 * time;
+                MoveY = SpeedY /5 * time;
             }
             else
             {
-                MoveX = SpeedX / 40;
-                MoveY = SpeedY / 40;
+                MoveX = SpeedX /5;
+                MoveY = SpeedY /5;
             }
 
             PositionX += MoveX;

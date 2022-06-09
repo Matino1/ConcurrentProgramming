@@ -9,32 +9,62 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    internal class DAO 
+    internal class DAO : IDisposable
     {
-        static object _lock = new object();
-         
+        private BlockingCollection<String> buffer = new BlockingCollection<String>();
+        private Task fileWritter;
+        private StreamWriter sw;
 
-        public static void wrtiteToFile(Ball ball, string time)
+        public DAO()
         {
-            Monitor.Enter(_lock);
-            StreamWriter sw = null;
-            try
-            {
-                sw = new StreamWriter("../../../../../Data/log.txt", append: true);
+            fileWritter = new Task(() => writter());
+            fileWritter.Start();
+        }
 
-                sw.WriteLine(time +
-                    " Ball " 
-                    + ball.Id 
-                    + " moved: " 
-                    + " PositionX: " 
+        public void addToBuffer(Ball ball)
+        {
+            string log = " Ball "
+                    + ball.Id
+                    + " moved: "
+                    + " PositionX: "
                     + Math.Round(ball.PositionX, 4)
-                    + " PositionY: " 
+                    + " PositionY: "
                     + Math.Round(ball.PositionY, 4)
-                    +" SpeedX: "
+                    + " SpeedX: "
                     + Math.Round(ball.SpeedX, 4)
                     + " SpeedY: "
-                    + Math.Round(ball.SpeedY, 4));
+                    + Math.Round(ball.SpeedY, 4);
 
+            buffer.Add(log);
+        }
+
+        public void Dispose()
+        {
+            sw.Dispose();
+            fileWritter.Dispose();
+        }
+
+        public void writter()
+        {
+            sw = new StreamWriter("../../../../../Data/log.txt", append: true);
+            try
+            {
+                foreach (string i in buffer.GetConsumingEnumerable())
+                {
+                    sw.WriteLine(i);
+                }
+            }
+            finally
+            {
+                Dispose();
+            }   
+        }
+         
+        public  void wrtiteToFile(string log)
+        {
+            try
+            {
+                sw.WriteLine(log);
             }
             catch (FileNotFoundException)
             {
@@ -43,19 +73,6 @@ namespace Data
             catch (IOException)
             {
                 Console.WriteLine("An I/O error has occurred.");
-            }
-            catch (OutOfMemoryException)
-            {
-                Console.WriteLine("There is insufficient memory to read the file.");
-            }
-            catch (SynchronizationLockException exception)
-            {
-                throw new Exception("Checking collision synchronization lock not working", exception);
-            }
-            finally
-            {
-                sw.Dispose();
-                Monitor.Exit(_lock);
             }
         }
     }
