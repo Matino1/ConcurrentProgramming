@@ -8,7 +8,7 @@ namespace Logic
 
         public static bool IsCollision(IBall current, IBall other)
         {
-            double distance = Math.Sqrt(Math.Pow(current.PositionX + current.MoveX - (other.PositionX + other.MoveX), 2) + Math.Pow(current.PositionY + current.MoveY - (other.PositionY + other.MoveY), 2));
+            double distance = Math.Sqrt(Math.Pow(current.PositionX + current.SpeedX - (other.PositionX + other.SpeedX), 2) + Math.Pow(current.PositionY + current.SpeedY - (other.PositionY + other.SpeedY), 2));
 
             if (Math.Abs(distance) <= current.Radius + other.Radius)
             {
@@ -20,14 +20,14 @@ namespace Logic
 
         public static void IsTouchingBoundaries(IBall ball, int boardSize)
         {
-            double newX = ball.PositionX + ball.MoveX;
+            double newX = ball.PositionX + ball.SpeedX;
 
             if ((newX > boardSize && ball.PositionX > 0) || (newX < 0 && ball.PositionX < 0))
             {
                 ball.SpeedX *= -1;
             }
 
-            double newY = ball.PositionY + ball.MoveY;
+            double newY = ball.PositionY + ball.SpeedY;
 
             if ((newY > boardSize && ball.PositionY > 0) || (newY < 0 && ball.PositionY < 0))
             {

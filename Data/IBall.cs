@@ -16,8 +16,5 @@ namespace Data
 
          double SpeedX { get; set; }
          double SpeedY { get; set; }
-
-        double MoveX { get; set; }
-        double MoveY { get; set; }
     }
 }

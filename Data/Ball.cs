@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace Data
 {
+    internal struct DiagnosticData
+    {
+        public int Id;
+        public double PositionX;
+        public double PositionY;
+        public double SpeedX;
+        public double SpeedY;
+
+        internal DiagnosticData(int id, double postionX, double positionY, double speedX, double speedY)
+        {
+            Id = id;
+            PositionX = postionX;
+            PositionY = positionY;
+            SpeedX = speedX;
+            SpeedY = speedY;
+        }
+    }
+
     public class Ball : IBall
     {
         public int Id { get;}
@@ -20,31 +38,25 @@ namespace Data
         public double SpeedX { get; set; }
         public double SpeedY { get; set; }
 
-        public double MoveX { get; set; }
-        public double MoveY { get; set; }
-
         public bool isRunning = true;
 
-
         internal readonly IList<IObserver<IBall>> observers;
-        Stopwatch stopwatch;
         private Task BallThread;
 
-        internal DAO dao { get; set; }
+        internal Logger logger { get; set; }
 
         public Ball(int id)
         {
             this.Id = id;
 
             Random random = new Random();
-            stopwatch = new Stopwatch();
             observers = new List<IObserver<IBall>>();
 
             this.PositionX = Convert.ToDouble(random.Next(1, 500));
             this.PositionY = Convert.ToDouble(random.Next(1, 500));
 
-            this.SpeedX = random.NextDouble() * (0.2 - 0) + 0;
-            this.SpeedY = random.NextDouble() * (0.2 - 0) + 0;
+            this.SpeedX = random.NextDouble() * (5 - 3) + 3;
+            this.SpeedY = random.NextDouble() * (5 - 3) + 3;
         }
 
         public void StartMoving()
@@ -57,13 +69,8 @@ namespace Data
         {
             while(isRunning)
             {
-                long time = stopwatch.ElapsedMilliseconds;
-
-                stopwatch.Restart();
-                stopwatch.Start();
-
-                ChangeBallPosition(time);
-                dao.addToBuffer(this);
+                ChangeBallPosition();
+                logger.addToBuffer(new DiagnosticData(Id, PositionX, PositionY, SpeedX, SpeedY));
 
                 foreach (var observer in observers.ToList())
                 {
@@ -72,26 +79,14 @@ namespace Data
                         observer.OnNext(this);
                     }
                 }
-                stopwatch.Stop();
+                Thread.Sleep(1);
             }
         }
 
-        public void ChangeBallPosition(long time)
+        public void ChangeBallPosition()
         {
-
-            if (time > 0)
-            {
-                MoveX = SpeedX /5 * time;
-                MoveY = SpeedY /5 * time;
-            }
-            else
-            {
-                MoveX = SpeedX /5;
-                MoveY = SpeedY /5;
-            }
-
-            PositionX += MoveX;
-            PositionY += MoveY;
+            PositionX += SpeedX;
+            PositionY += SpeedY;
         }
 
         #region provider

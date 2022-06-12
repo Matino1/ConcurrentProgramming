@@ -9,12 +9,12 @@ namespace Data
     {
         public List<Ball> balls { get; set; }
         public int BoardSize { get; private set; } = 515;
-        DAO dao;
+        Logger dao;
 
         public BallRepository()
         {
             balls = new List<Ball>();
-            dao = new DAO();
+            dao = new Logger();
         }
 
         public void CreateBalls(int ballsAmount)
@@ -23,7 +23,7 @@ namespace Data
             {
                 Ball newBall = new Ball(i + 1);
                 balls.Add(newBall);
-                newBall.dao = dao;
+                newBall.logger = dao;
             }
         }
 

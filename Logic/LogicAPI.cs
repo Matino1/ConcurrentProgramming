@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
 using Data;
 
@@ -37,7 +35,6 @@ namespace Logic
             private IObservable<EventPattern<BallChaneEventArgs>> eventObservable = null;
             public event EventHandler<BallChaneEventArgs> BallChanged;
             Dictionary<int, IBall> ballTree;
-            Barrier barrier;
 
             public BusinessLogic(DataAbstractAPI dataAPI)
             {
@@ -50,7 +47,6 @@ namespace Logic
             public override void AddBallsAndStart(int BallsAmount)
             {
                 dataAPI.createBalls(BallsAmount);
-                barrier = new Barrier(BallsAmount);
             }
 
             #region observer
